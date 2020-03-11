@@ -92,7 +92,7 @@
                         </li>
                         <% if ( version ) { %>
                             <li>The results of Spark and Python functions may differ even if you use the same function
-                                because of the internal algorithms are different.
+                                due to the different internal algorithms.
                             </li>
                         <% } %>
                     </ul>
@@ -132,9 +132,9 @@
 <script src="js/va/brightics-va-core.min.js"></script>
 
 <!-- Bcharts -->
-<script src="js/plugins/bcharts/bcharts-all.js"></script>
-<script src="js/plugins/bcharts/bcharts-adonis-all.js"></script>
-<script src="js/plugins/bcharts/bcharts-module-all.js"></script>
+<!--<script src="js/plugins/bcharts/bcharts-all.js"></script>-->
+<!--<script src="js/plugins/bcharts/bcharts-adonis-all.js"></script>-->
+<!--<script src="js/plugins/bcharts/bcharts-module-all.js"></script>-->
 
 <!-- Brightics Modules -->
 <script src="js/va/brightics-va-functions.min.js"></script>
@@ -142,7 +142,7 @@
 <!-- <script src="js/va/brightics-va-controlflow.js"></script> -->
 <!-- <script src="js/va/brightics-va-realtime.js"></script> -->
 <!-- <script src="js/va/brightics-va-etlflow.js"></script> -->
-<script src="js/va/brightics-va-visual.min.js"></script>
+<!--<script src="js/va/brightics-va-visual.min.js"></script>-->
 <script src="js/va/brightics-va-script.min.js"></script>
 <!-- <script src="js/va/brightics-va-deeplearning.js"></script> -->
 
@@ -229,8 +229,7 @@
         } else {
             $descHeader.after($descContents);
         }
-        // var $descriptionHeader = $('.bs-docs-section.bs-theme-brtc > h2:contains("Description")');
-        // if ($descriptionHeader.length) $descriptionHeader.remove();
+
     }
 
     var _render_properties = function () {

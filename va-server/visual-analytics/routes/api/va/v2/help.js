@@ -334,7 +334,7 @@ const downloadExampleModelJson = function(req, res) {
     if (modelContents !== '') {
         res.send(JSON.stringify(modelContents));
     } else {
-        __BRTC_ERROR_HANDLER.sendError(res, 32011);
+        __BRTC_ERROR_HANDLER.sendError(res, 35021);
     }
   });
 };
@@ -369,7 +369,7 @@ const getBase64SampleImage = function(req, res) {
         });
         res.end(img);
     } else {
-        __BRTC_ERROR_HANDLER.sendError(res, 32011);
+        __BRTC_ERROR_HANDLER.sendError(res, 35021);
     }
   });
 };
