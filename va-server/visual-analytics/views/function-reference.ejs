@@ -18,8 +18,9 @@
     <link type="text/css" rel="stylesheet" href="css/plugins/documentation/documentation.css">
 
     <!-- Handsontable css -->
-    <link type="text/css" rel='stylesheet' href='/css/plugins/handsontable/handsontable.full.min.css'/>
-
+    <link type="text/css" rel='stylesheet' href='css/plugins/handsontable/handsontable.full.min.css'/>
+    <link type="text/css" rel="stylesheet" href="css/plugins/aui-package/aui-widgets-1.16.8.css">
+    <link type="text/css" rel='stylesheet' href='css/plugins/aui-package/aui-widgets-1.9.0.office.css'/>
     <style>
         .nav.bs-sidenav.bs-theme-brtc {
             max-height: 600px;
@@ -30,12 +31,18 @@
             margin-bottom: 5px;
             list-style-type: decimal;
         }
+
+        .language {
+            float: right;
+            font-size: 12px;
+        }
     </style>
 
 </head>
 <body>
 <div class="bs-header bs-theme-brtc" id="content">
     <div class="container">
+        <div class="language"></div>
         <h2>Function Reference</h2>
         <p>The functions, as given by the document strings. The documents expected types and allowed features for all
             functions, and all parameters available for the algorithms.</p>
@@ -406,7 +413,7 @@
                     if (category === 'bigdata') continue;
 
                     var exist = false;
-
+                    if(!data[c].visible) continue;
                     for (var c in data) {
                         if (data[c].key === category) {
                             for (var k in data[c].functions) {
@@ -473,7 +480,10 @@
                         ].map(function (x) {
                             return x.join('=');
                         }).join('&');
-
+                        var language = $.cookie('language');
+                        if (language !== 'en') {
+                            qs += '&lang=' + language
+                        }
                         $(element).attr('id', operator);
                         $(element).addClass(context);
                         $(element).append('<a func-anchor="true" href="/api/va/v2/help/function/' + operator + '?' + qs + '">' + label + '</a>');
@@ -492,8 +502,11 @@
                             var helperFunc = helperSpec.func || helperNm;
                             var helperContext = helperSpec.context || 'scala';
                             $helperPage.find('li').attr('id', helperOperator);
-                            $helperPage.find('li').append('<a func-anchor="true" href="/api/va/v2/help/function/' +
-                                helperOperator + '?type=' + type + '&context=' + helperContext + '&func=' + helperFunc + '">' + helperLabel + '</a>');
+                            var url = '/api/va/v2/help/function/' + helperOperator + '?type=' + type + '&context=' + helperContext + '&func=' + helperFunc;
+                            if (language !== 'en') {
+                                url += '&lang=' + language
+                            }
+                            $helperPage.find('li').append('<a func-anchor="true" href="' + url + '">' + helperLabel + '</a>');
                         }
                     });
                 })
@@ -529,13 +542,18 @@
 
                             var qs = [
                                 ['type', type],
-                                ['context', context]
+                                ['context', context],
+                                ['func', func]
                             ].map(function (x) {
                                 return x.join('=');
                             }).join('&');
 
                             $(element).attr('id', 'udf_' + operator);
                             $(element).addClass(context);
+                            var language = $.cookie('language');
+                            if (language !== 'en') {
+                                qs += '&lang=' + language
+                            }
                             $(element).append('<div class="docs-icon"></div><a func-anchor="true" href="/api/va/v2/help/function/udf_' + operator + '?' + qs + '">' + label + '</a>');
 
                             var helperNm = $(element).attr('helper');
@@ -549,10 +567,14 @@
                                 var helperSpec = Brightics.VA.Implementation[modelType].Helpers[helperNm];
                                 var helperLabel = helperSpec.label || helperNm;
                                 var helperOperator = helperSpec.operation || helperNm;
+                                var helperFunc = helperSpec.func || helperNm;
                                 var helperContext = helperSpec.context || 'scala';
+                                var url = '/api/va/v2/help/function/' + helperOperator + '?type=' + type + '&context=' + helperContext + '&func=' + helperFunc;
+                                if (language !== 'en') {
+                                    url += '&lang=' + language
+                                }
                                 $helperPage.find('li').attr('id', helperOperator);
-                                $helperPage.find('li').append('<a func-anchor="true" href="/api/va/v2/help/function/' +
-                                    helperOperator + '?type=' + type + '&context=' + helperContext + '">' + helperLabel + '</a>');
+                                $helperPage.find('li').append('<a func-anchor="true" href="' + url + '">' + helperLabel + '</a>');
                             }
                         });
                     });
@@ -614,7 +636,74 @@
         });
     };
 
+    var _render_language = function () {
+        var language = $.cookie('language');
+        var source = [{text: "Global/English", value: 'en'}, {text: "Korean/한국어", value: "kr"}];
+        var selectedIndex = 0;
+        for (sIdx in source) {
+            if (source[sIdx].value === language) {
+                selectedIndex = sIdx
+            }
+        }
+        $('.language').jqxDropDownList({
+            source: source,
+            selectedIndex: selectedIndex,
+            checkboxes: false,
+            width: 120,
+            height: 25,
+            dropDownHeight: 52,
+            openDelay: 0,
+            closeDelay: 0,
+            displayMember: 'text',
+            valueMember: 'value'
+        });
+
+        function getUrlParams() {
+            var params = {};
+            window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (str, key, value) {
+                params[key] = value;
+            });
+            return params;
+        }
+
+        function queryStr(originParam){
+            return Object.entries(originParam).map(function (param) {
+                return param[0] + '=' + param[1]
+            }).join('&')
+        }
+
+        var originParam = getUrlParams();
+
+        $('.language').on('select', function (event) {
+            var args = event.args;
+            var item = $('.language').jqxDropDownList('getItem', args.index);
+            if (item != null) {
+                if (item.value === 'kr') {
+                    originParam.lang = item.value;
+                } else {
+                    delete originParam.lang;
+                }
+                $.cookie('language', item.value)
+                window.location.href = window.location.pathname + '?' +  queryStr(originParam);
+            }
+        });
+
+        //초기 Cookie 값으로 redirect 하기 위한 로직
+        if (language === 'kr') {
+            if (!originParam.lang) {
+                originParam.lang = language;
+                window.location.href = window.location.pathname + '?' + queryStr(originParam);
+            }
+        } else {
+            if (originParam.lang) {
+                delete originParam.lang;
+                window.location.href = window.location.pathname + '?' + queryStr(originParam);
+            }
+        }
+    }
+
     window.onload = function () {
+        _render_language();
         _render_docs_section();
         _render_external_link();
         _render_table();
