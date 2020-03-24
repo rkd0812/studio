@@ -89,11 +89,11 @@
         "functions": [
             {
                 "func": "import",
-                "visible": true
+                "visible": false
             },
             {
                 "func": "export",
-                "visible": true
+                "visible": false
             },
             {
                 "func": "setValue",
