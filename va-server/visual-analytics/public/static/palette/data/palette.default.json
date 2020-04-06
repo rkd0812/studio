@@ -341,11 +341,11 @@
                 "visible": true
             },
             {
-                "func": "brightics.function.transform$flatten_json_json",
+                "func": "brightics.function.transform$flatten_json",
                 "visible": true
             },
             {
-                "func": "brightics.function.transform$get_tabletable",
+                "func": "brightics.function.transform$get_table",
                 "visible": true
             },
             {
@@ -540,7 +540,7 @@
                 "visible": true
             },
             {
-                "func": "brightics.function.classification$logistic_regression_predictedict",
+                "func": "brightics.function.classification$logistic_regression_predict",
                 "visible": true
             },
             {
@@ -552,11 +552,11 @@
                 "visible": true
             },
             {
-                "func": "brightics.function.classification$naive_bayes_traintrain",
+                "func": "brightics.function.classification$naive_bayes_train",
                 "visible": true
             },
             {
-                "func": "brightics.function.classification$naive_bayes_predictedict",
+                "func": "brightics.function.classification$naive_bayes_predict",
                 "visible": true
             },
             {
@@ -584,7 +584,7 @@
                 "visible": true
             },
             {
-                "func": "brightics.function.classification$classification_predictedict",
+                "func": "brightics.function.classification$classification_predict",
                 "visible": true
             }
         ]
@@ -607,7 +607,7 @@
                 "visible": true
             },
             {
-                "func": "brightics.function.regression$decision_tree_regression_predictedict",
+                "func": "brightics.function.regression$decision_tree_regression_predict",
                 "visible": true
             },
             {
