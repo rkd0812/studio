@@ -413,8 +413,9 @@
                     if (category === 'bigdata') continue;
 
                     var exist = false;
-                    if(!data[c].visible) continue;
+                    
                     for (var c in data) {
+                        if(!data[c].visible) continue;
                         if (data[c].key === category) {
                             for (var k in data[c].functions) {
                                 var fnUnit = data[c].functions[k];
