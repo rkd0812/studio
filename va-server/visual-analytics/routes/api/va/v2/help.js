@@ -156,7 +156,7 @@ var responseFunctionHelp = function(req, res, operation, palette, fileContents, 
         });
       };
 
-      var filePath = path.join(
+      var filePath = __REQ_path.join(
         __dirname,
         `../../../../public/static/help/${context}/${lang ? lang : "en"}/${filename}.md`
       );
